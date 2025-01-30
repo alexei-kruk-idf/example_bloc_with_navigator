@@ -4,6 +4,8 @@ import 'package:example_bloc_with_navigator/bloc/bloc.dart';
 import 'package:example_bloc_with_navigator/navigator/base_page.dart';
 import 'package:example_bloc_with_navigator/navigator/nav_result.dart';
 import 'package:example_bloc_with_navigator/screen/app/app_tile.dart';
+import 'package:example_bloc_with_navigator/screen/counter/counter_screen.dart';
+import 'package:flutter/material.dart';
 
 class AppBloc extends BlocImpl {
   final _appTile = AppTile.init();
@@ -33,6 +35,7 @@ class AppBloc extends BlocImpl {
   void _push(BasePage page) {
     _appTile.pages.add(page);
 
+    _appTile.isHideBottomNavBar = _appTile.pages.lastOrNull?.name != CounterScreen.ROUTE_NAME;
     handleData(data: _appTile);
   }
 
@@ -54,6 +57,12 @@ class AppBloc extends BlocImpl {
     handleData(data: _appTile);
   }
 
+  void handleRemoveRouteSettings(RouteSettings value) {
+    _appTile.pages.remove(value);
+    _appTile.isHideBottomNavBar = _appTile.pages.lastOrNull?.name != CounterScreen.ROUTE_NAME;
+    handleData(data: _appTile);
+  }
+
   void _popAllAndPushPages(List<BasePage> pages) {
     _appTile.pages.clear();
     _appTile.pages.addAll(pages);
@@ -62,6 +71,7 @@ class AppBloc extends BlocImpl {
 
   void _pop(NavResult value) {
     _appTile.pages.removeLast();
+    _appTile.isHideBottomNavBar = _appTile.pages.lastOrNull?.name != CounterScreen.ROUTE_NAME;
     handleData(data: _appTile);
   }
 

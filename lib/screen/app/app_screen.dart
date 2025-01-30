@@ -77,9 +77,24 @@ class _AppScreenContent extends StatelessWidget {
         key: navigatorKey,
         pages: tile.pages.toList(),
         onPopPage: (route, result) {
+          bloc.handleRemoveRouteSettings(route.settings);
           return route.didPop(result);
         },
       ),
+      bottomNavigationBar: tile.isHideBottomNavBar
+          ? null
+          : BottomNavigationBar(
+              items: [
+                BottomNavigationBarItem(
+                  label: 'test',
+                  icon: Icon(Icons.abc),
+                ),
+                BottomNavigationBarItem(
+                  label: 'test1',
+                  icon: Icon(Icons.access_alarm),
+                ),
+              ],
+            ),
     );
   }
 }
